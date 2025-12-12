@@ -1,0 +1,9 @@
+SELECT 
+    MAX(daily_visits) AS max_visits,
+    MIN(daily_visits) AS min_visits,
+    ROUND(AVG(daily_visits), 2) AS average_visits
+FROM (
+    SELECT COUNT(*) AS daily_visits
+    FROM admissions
+    GROUP BY admission_date
+) daily_counts;
