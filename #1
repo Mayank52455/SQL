@@ -1,0 +1,5 @@
+select pt.patient_id, pt.first_name,pt.last_name
+from patients as pt
+left join admissions AS adm
+on adm.patient_id = pt.patient_id
+where adm.patient_id is null
