@@ -1,0 +1,122 @@
+# SQL JOINs – Quick README
+
+This README explains **when and how to use INNER JOIN, LEFT JOIN, and RIGHT JOIN** using simple rules and examples.
+
+---
+
+## 1. INNER JOIN
+
+### What it does
+
+Returns **only rows that exist in BOTH tables**.
+
+### When to use
+
+* You only want records that have matching data in another table
+* Missing data should be excluded
+
+### Example
+
+Show patients **who have at least one admission**:
+
+```sql
+SELECT p.patient_id, p.first_name, p.last_name
+FROM patients p
+INNER JOIN admissions a
+  ON p.patient_id = a.patient_id;
+```
+
+---
+
+## 2. LEFT JOIN
+
+### What it does
+
+Returns **ALL rows from the LEFT table**, and matching rows from the right table.
+If there is no match, columns from the right table are **NULL**.
+
+### When to use
+
+* You want to keep all rows from one main table
+* You want to detect missing relationships
+
+### Example 1: Show all patients (even those without admissions)
+
+```sql
+SELECT p.patient_id, p.first_name, p.last_name, a.admission_date
+FROM patients p
+LEFT JOIN admissions a
+  ON p.patient_id = a.patient_id;
+```
+
+### Example 2: Show patients with NO admissions
+
+```sql
+SELECT p.patient_id, p.first_name, p.last_name
+FROM patients p
+LEFT JOIN admissions a
+  ON p.patient_id = a.patient_id
+WHERE a.patient_id IS NULL;
+```
+
+---
+
+## 3. RIGHT JOIN
+
+### What it does
+
+Returns **ALL rows from the RIGHT table**, and matching rows from the left table.
+
+### When to use
+
+* Rarely used
+* Can always be rewritten as a LEFT JOIN by switching table order
+
+### Example
+
+Show all admissions, even if patient data is missing:
+
+```sql
+SELECT p.first_name, p.last_name, a.admission_date
+FROM patients p
+RIGHT JOIN admissions a
+  ON p.patient_id = a.patient_id;
+```
+
+---
+
+## 4. Simple Rule to Remember
+
+> **Choose the table you never want to lose → make it the LEFT table**
+
+---
+
+## 5. Quick Decision Table
+
+| Goal                            | JOIN to use |
+| ------------------------------- | ----------- |
+| Only matching rows              | INNER JOIN  |
+| Keep all rows from main table   | LEFT JOIN   |
+| Keep all rows from second table | RIGHT JOIN  |
+
+---
+
+## 6. Common Mistakes
+
+* Using `INNER JOIN` when you want missing data
+* Using `WHERE column IS NULL` with INNER JOIN (will return nothing)
+* Forgetting JOIN conditions (`ON` clause)
+
+---
+
+## 7. Key Takeaway
+
+* **INNER JOIN** → must exist in both tables
+* **LEFT JOIN** → keep everything from the left
+* **RIGHT JOIN** → keep everything from the right
+
+Once you understand this, SQL becomes much easier.
+
+---
+
+Happy querying! 🚀
