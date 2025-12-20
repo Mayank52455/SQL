@@ -1,0 +1,6 @@
+select p.product_name, s.company_name, c.category_name
+from products as p
+join categories as c
+on c.category_id = p.category_id
+join suppliers as s
+on s.supplier_id = p.supplier_id
